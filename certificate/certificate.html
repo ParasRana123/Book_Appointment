@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+      body {
+        background-color: #f4f4f9;
+        color: #333333;
+        font-family: Poppins;
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        /* background-color: #17206d; */
+        color: #000;
+        /* Violet blue theme */
+        background-color: white;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffffff;
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+
+        gap: 10%;
+        cursor: pointer;
+      }
+
+      .logo img {
+        width: 60px;
+        height: 50px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        font-size: 120%;
+      }
+
+      .nav-links li {
+        position: relative;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #000;
+        /* color: #ffffff; */
+        /* font-size: 20px; */
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #a9a9f5;
+        /* Light violet blue on hover */
+      }
+
+      .nav-links a::after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #a9a9f5;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+        transition: width 0.3s;
+      }
+
+      #doctor-search {
+        width: 750px;
+        height: 40px;
+        border-radius: 15px;
+        border: 1px solid black;
+      }
+
+      /* Container for the search bar */
+      .search-container {
+        position: relative;
+        width: 214%;
+        max-width: 670px;
+        left: -45px;
+      }
+
+      /* Style the search input field */
+      #doctor-search {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        height: 24px;
+      }
+
+      /* Style the suggestion list */
+      .suggestions-list {
+        position: absolute;
+        width: 147.5%;
+        top: 100%;
+        left: 80px;
+        right: 0;
+        max-height: 200px;
+        /* Limit the height */
+        overflow-y: auto;
+        /* Add scroll if there are many results */
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-top: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        display: none;
+        /* Initially hidden */
+      }
+
+      /* Style each list item */
+      .suggestions-list li {
+        padding: 8px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      /* Highlight the suggestion on hover */
+      .suggestions-list li:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Style for when no results are found */
+      .suggestions-list li.no-results {
+        font-style: italic;
+        color: #999;
+      }
+
+      .tick-icon {
+        color: green;
+      }
+
+      .text1 {
+        font-size: 24px;
+      }
+
+      .text {
+        position: absolute;
+        max-width: 50%;
+        left: 5%;
+        top: 6%;
+      }
+
+      .heading {
+        font-size: 40px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        position: absolute;
+        width: 1500px;
+        height: 700px;
+        background-image: linear-gradient(
+          90deg,
+          #e5f3fc 0,
+          #e5f3fc 100%
+        ) !important;
+      }
+
+      .image {
+        position: absolute;
+        right: 5%;
+        top: 11%;
+      }
+
+      .container1 {
+        position: absolute;
+        top: 105%;
+        background-color: #2a4368 !important;
+        width: 1500px;
+        height: 420px;
+        color: white;
+      }
+
+      .heading1 {
+        text-align: center;
+        font-size: 30px;
+      }
+
+      .elements {
+        position: absolute;
+        left: 13%;
+        top: 35%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 150px;
+      }
+
+      .head {
+        background-image: linear-gradient(
+          90deg,
+          #e5f3fc 0,
+          #e5f3fc 100%
+        ) !important;
+        position: absolute;
+        top: 161%;
+        color: #2a4368 !important;
+        width: 1500px;
+        height: 288px;
+      }
+
+      .heading2 {
+        font-size: 45px;
+        text-align: center;
+        margin-top: 50px;
+        margin-left: 320px;
+        max-width: 60%;
+      }
+
+      hr {
+        border: none; /* Remove default border */
+        height: 1px; /* Thickness of the line */
+        background-color: rgb(63, 63, 63); /* Line color */
+        width: 40%; /* Adjust width */
+        margin: 40px auto; /* Centering */
+      }
+
+      .container2 {
+        background-image: linear-gradient(
+          90deg,
+          #e5f3fc 0,
+          #e5f3fc 100%
+        ) !important;
+        display: flex;
+        justify-content: center;
+        top: 200%;
+        position: absolute;
+        width: 1500px;
+        height: 300px;
+        gap: 15px;
+      }
+
+      .cards {
+        height: 150px;
+        width: fit-content;
+        background-color: #f4f4f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 25px;
+        padding: 20px;
+        margin: 30px;
+        cursor: pointer;
+      }
+
+      .cards:hover {
+        transform: translateY(-5px);
+        /* Subtle lift effect on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        /* Slightly darker shadow */
+        /* background: transparent linear-gradient(281deg, #007C9D 0%, #01C9C9 100%) 0% 0% no-repeat; */
+        /* color: white; */
+      }
+
+      .card {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .content {
+        max-width: 50%;
+      }
+
+      .heading3 {
+        position: absolute;
+        /* background-color: black; */
+        width: 1500px;
+        height: 50px;
+        top: 238%;
+        color: #2a4368 !important;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      /* Style the suggestion list */
+      .suggestions-list {
+        position: absolute;
+        width: 147.5%;
+        top: 100%;
+        left: 80px;
+        right: 0;
+        max-height: 200px;
+        /* Limit the height */
+        overflow-y: auto;
+        /* Add scroll if there are many results */
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-top: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        display: none;
+        /* Initially hidden */
+      }
+
+      /* Style each list item */
+      .suggestions-list li {
+        padding: 8px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      /* Highlight the suggestion on hover */
+      .suggestions-list li:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Style for when no results are found */
+      .suggestions-list li.no-results {
+        font-style: italic;
+        color: #999;
+      }
+
+      /* .clinic-container {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 1000px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        display: flex;
+        height: 600px;
+        max-height: fit-content;
+    }  */
+
+      .detail {
+        position: absolute;
+        top: 245%;
+        margin-top: 40px;
+        /* background-color: #000; */
+        display: flex;
+        flex-wrap: wrap;
+        /* Allow wrapping */
+        gap: 20px;
+        /* Consistent spacing between cards */
+        justify-content: space-between;
+        /* Spread cards evenly */
+        padding: 10px;
+        width: 1500px;
+        /* Optional padding */
+        box-sizing: border-box;
+        /* Include padding in width */
+      }
+
+      .clinic-container:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        transform: translateY(-10px);
+      }
+
+      .clinic-title {
+        color: #7f8c8d;
+        font-weight: 500;
+        font-size: 1em;
+        margin-bottom: 5px;
+        text-transform: capitalize;
+        /* border-bottom: 2px solid #3498db; */
+        /* padding-bottom: 10px; */
+        transition: color 0.3s ease;
+      }
+
+      .clinic-distance {
+        color: rgb(196, 7, 7);
+        /* text-align: center; */
+      }
+
+      .clinic-map {
+        text-decoration: none;
+        color: #7f8c8d;
+      }
+
+      /* .clinic-title:hover {
+        /* color: #3498db; */
+
+      .doctor-info {
+        flex: 0 1 calc(50% - 20px);
+        /* Two cards per row, accounting for gap */
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05); */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        box-sizing: border-box;
+        /* Include padding in width */
+        margin: -6px;
+        /* border: 1px solid black; */
+        /* Remove extra margin */
+      }
+
+      .doctor-info:hover {
+        background-color: #ecf0f1;
+      }
+
+      .doctor-name {
+        font-weight: bold;
+        /* color: #2c3e50; */
+        color: black;
+        font-size: 1.2em;
+        margin-bottom: -5px;
+      }
+
+      .doctor-details {
+        color: #7f8c8d;
+        font-size: 1em;
+        margin: 5px 0;
+      }
+
+      .specializations {
+        /* color: #8e44ad; */
+        color: #7f8c8d;
+        font-weight: 500;
+        font-size: 1em;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #3498db;
+      }
+
+      /* Button animations */
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #2980b9;
+        transform: scale(1.05);
+      }
+
+      .clinic-address {
+        color: #7f8c8d;
+        font-weight: 500;
+        font-size: 1em;
+        cursor: pointer;
+      }
+
+      #login {
+        color: whitesmoke;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      #patient {
+        color: White;
+        font-weight: 400;
+        cursor: pointer;
+      }
+
+      .rating {
+        font-weight: bold;
+      }
+
+      .clinic-container .clinic-title {
+        cursor: pointer;
+      }
+
+      .doctor-flex {
+        display: flex;
+        flex-direction: row;
+        gap: 130px;
+        /* justify-content: space-between; */
+      }
+
+      .email {
+        color: black;
+        font-weight: bold;
+      }
+
+      .img {
+        /* gap: 100px; */
+        padding-right: 10px;
+      }
+
+      .doctor-flex1 {
+        display: flex;
+        flex-direction: row;
+        gap: 90px;
+      }
+
+      .doctor-name {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 44%;
+      }
+
+      .doctor-name > div {
+        min-width: 10%;
+        margin-right: 11%;
+      }
+
+      .doctor-name button {
+        padding: 10px;
+        font-weight: bold;
+        background-color: #2a4368 !important;
+        color: white;
+        border: 2px solid grey;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href=""><img src="../image/logo.png" alt="" /> </a>
+        MedPulse
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          id="doctor-search"
+          placeholder="Search for doctors..."
+        />
+        <ul id="suggestions" class="suggestions-list"></ul>
+        <!-- Suggestions will appear here -->
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="google/hospital_locator">Hospital locator</a></li>
+        <li><a href="" class="services">Services</a></li>
+        <!-- <li id="patient">Patients</li> -->
+        <!-- <li><a href="doctor">Doctors and clinics</a></li> -->
+        <!-- <li><a href="billing">Billing</a></li> -->
+        <li id="patient_report">Prescription</li>
+        <!-- <li class="symptomschecker"><a href="prediction">Symptoms-checker</a></li> -->
+        <li id="login">Login</li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <div class="text">
+        <h1 class="heading">
+          Student Medical Certificate Portal - Quick & Secure Certification
+        </h1>
+        <p class="text1">
+          <span class="tick-icon">&#9745;</span> Get digitally verified sick
+          leave and recovery certificates within minutes.
+        </p>
+        <p class="text1">
+          <span class="tick-icon">&#9745;</span> Ensure hassle-free approval
+          with authenticated medical documentation.
+        </p>
+        <p class="text1">
+          <span class="tick-icon">&#9745;</span> Convenient online verification
+          for students needing official medical proof.
+        </p>
+        <p class="text1">
+          <span class="tick-icon">&#9745;</span> Streamlined process for
+          obtaining certified medical leave documents.
+        </p>
+      </div>
+      <div class="image">
+        <img src="../image/pract1.png" alt="" height="470px" width="auto" />
+      </div>
+    </div>
+
+    <div class="container1">
+      <h1 class="heading1">Why Trust Us ?</h1>
+      <div class="elements">
+        <div class="element">
+          <img
+            style="filter: invert(1)"
+            src="../image/authentic.png"
+            height="100px"
+            width="auto"
+            alt=""
+          />
+          <p style="font-size: 19px; font-weight: bold">Authentic</p>
+          <p style="font-size: 15px; max-width: 73%">
+            From Registered Indian Practitioners Only.
+          </p>
+        </div>
+        <div class="element">
+          <img
+            style="filter: invert(1)"
+            src="../image/secure.png"
+            height="100px"
+            width="auto"
+            alt=""
+          />
+          <p style="font-size: 19px; font-weight: bold">Secure</p>
+          <p style="font-size: 15px; max-width: 73%">
+            Your data is secure and encrypted.
+          </p>
+        </div>
+        <div class="element">
+          <img
+            style="filter: invert(1)"
+            src="../image/convinient.png"
+            height="100px"
+            width="auto"
+            alt=""
+          />
+          <p style="font-size: 19px; font-weight: bold">Convenient</p>
+          <p style="font-size: 15px; max-width: 73%">
+            Manage your health when it suits you , from anywhere.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="head">
+      <h1 class="heading2">GET YOUR MEDICAL CERTIFICATE IN 3 EASY STEPS</h1>
+      <hr />
+    </div>
+    <div class="container2">
+      <div class="cards">
+        <div class="card">
+          <img
+            style="margin-top: 20px"
+            src="../image/card1.png"
+            height="100px"
+            width="auto"
+            alt=""
+          />
+          <div class="content">
+            <h3>Step 1: Submit Your Request</h3>
+            <p>
+              Complete you quick medical questionnaire and submit your request
+              for the medical certificate.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <img
+            style="margin-top: 20px"
+            src="../image/card2.png"
+            alt=""
+            height="100px"
+            width="auto"
+          />
+          <div class="content">
+            <h3>Step 2: Consultation By a Certified Doctor</h3>
+            <p>
+              Our doctor will review your request and will reach out to you.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <img
+            style="margin-top: 20px"
+            src="../image/card3.png"
+            alt=""
+            height="100px"
+            width="auto"
+          />
+          <div class="content">
+            <h3>Step 3: Recieve Your Medical Certificate</h3>
+            <p>
+              Get your medical via Email within 30 - minutes of your
+              questionaire.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h1 class="heading3">OUR DOCTORS</h1>
+    <div class="detail" id="doctor-list"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

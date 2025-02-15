@@ -1,0 +1,329 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+      body {
+        background-color: #f4f4f9;
+        color: #333333;
+        font-family: Poppins;
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        /* background-color: #17206d; */
+        color: #000;
+        /* Violet blue theme */
+        background-color: white;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffffff;
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+
+        gap: 10%;
+        cursor: pointer;
+      }
+
+      .logo img {
+        width: 60px;
+        height: 50px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        font-size: 120%;
+      }
+
+      .nav-links li {
+        position: relative;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #000;
+        /* color: #ffffff; */
+        /* font-size: 20px; */
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #a9a9f5;
+        /* Light violet blue on hover */
+      }
+
+      .nav-links a::after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #a9a9f5;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+        transition: width 0.3s;
+      }
+
+      #doctor-search {
+        width: 750px;
+        height: 40px;
+        border-radius: 15px;
+        border: 1px solid black;
+      }
+
+      /* Container for the search bar */
+      .search-container {
+        position: relative;
+        width: 214%;
+        max-width: 670px;
+        left: -45px;
+      }
+
+      /* Style the search input field */
+      #doctor-search {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        height: 24px;
+      }
+
+      /* Style the suggestion list */
+      .suggestions-list {
+        position: absolute;
+        width: 147.5%;
+        top: 100%;
+        left: 80px;
+        right: 0;
+        max-height: 200px;
+        /* Limit the height */
+        overflow-y: auto;
+        /* Add scroll if there are many results */
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-top: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        display: none;
+        /* Initially hidden */
+      }
+
+      /* Style each list item */
+      .suggestions-list li {
+        padding: 8px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      /* Highlight the suggestion on hover */
+      .suggestions-list li:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Style for when no results are found */
+      .suggestions-list li.no-results {
+        font-style: italic;
+        color: #999;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+      }
+
+      .heading {
+        background-color: #fff;
+        margin-left: 10px;
+        width: 960px;
+        margin-bottom: auto;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid black;
+      }
+
+      .cart-items {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .cart-item {
+        position: relative;
+        left: 1%;
+        background-color: #fff;
+        border-bottom: 1px solid black;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        height: 500px;
+        width: 1000px;
+        max-width: 1100px;
+        height: auto;
+        align-items: center;
+      }
+
+      .content {
+        margin-top: -10px;
+      }
+
+      .heading1 {
+        background-color: #fff;
+        margin-left: 10px;
+        width: 1000px;
+        margin-top: auto;
+        padding-bottom: 35px;
+        text-align: center;
+        padding-top: 25px;
+        font-size: 20px;
+      }
+
+      .summary {
+        background-color: #fff;
+        width: 450px;
+        height: 350px;
+        margin-top: 18px;
+      }
+
+      .heading3 {
+        text-align: center;
+      }
+
+      .remove_btn {
+        background-color: #FFD700; 
+        color: black; 
+        padding: 10px 20px; 
+        border: none; 
+        cursor: pointer; 
+        margin-left: -20px; 
+        border-radius: 20px
+      }
+
+      .quantity-controls {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        margin-left: -20px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href=""><img src="image/logo.png" alt="" /> </a>
+        MedPulse
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          id="doctor-search"
+          placeholder="Search for doctors..."
+        />
+        <ul id="suggestions" class="suggestions-list"></ul>
+        <!-- Suggestions will appear here -->
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="google/hospital_locator">Hospital locator</a></li>
+        <li><a href="" class="services">Services</a></li>
+        <!-- <li id="patient">Patients</li> -->
+        <!-- <li><a href="doctor">Doctors and clinics</a></li> -->
+        <!-- <li><a href="billing">Billing</a></li> -->
+        <li id="patient_report">Prescription</li>
+        <!-- <li class="symptomschecker"><a href="prediction">Symptoms-checker</a></li> -->
+        <li id="login">Login</li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div>
+        <h1 class="heading">SHOPPING CART</h1>
+        <div id="cart-items" class="cart-container"></div>
+        <div id="cart-summary" class="cart-summary"></div>
+      </div>
+      <div class="summary">
+        <h1 class="heading3">Order Summary</h1>
+      </div>
+    </div>
+
+    <script>
+      function loadCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartContainer = document.getElementById("cart-items");
+        const cartSummary = document.getElementById("cart-summary");
+        const Summary = document.querySelector(".summary");
+        cartContainer.innerHTML = "";
+
+        if (cart.length === 0) {
+          cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+          cartSummary.innerHTML = "";
+          return;
+        }
+
+        let totalCost = 0;
+        cart.forEach((item, index) => {
+          totalCost += item.price;
+          const cartItem = document.createElement("div");
+          cartItem.classList.add("cart-item");
+          cartItem.innerHTML = `
+            <img style="height: 200px ; width: auto; padding: 20px" src="${item.image_url}" alt="${item.name}">
+            <div class="content">
+              <h2 style="font-weight: bolder;">${item.name}</h2>
+              <p style="margin-top: 2px;">${item.description}</p>
+              <p style="color: green;>${item.availability}</p>
+              <p style="color: grey;">Eligible for free shipping</p>
+              <p style="color: #FFD700;">⭐ ${item.ratings} / 5</p>
+              <h4 style="font-size: 14px;">$${item.price.toFixed(2)}</h4>
+              <button class="remove_btn" onclick="removeFromCart(${index})">Remove from Cart</button>
+            </div>
+          `;
+          cartContainer.appendChild(cartItem);
+        });
+
+        const deliveryCharge = 5.0;
+        const finalCost = totalCost + deliveryCharge;
+        cartSummary.innerHTML = `
+          <h3 class="heading1">Subtotal: $${totalCost.toFixed(2)}</h3>
+        `;
+
+        Summary.innerHTML = `
+        <h1 class="heading3">Order Summary</h1>
+        <hr>
+        <p style="font-size: 18px; margin-left: 20px;">Subtotal: <strong>$${totalCost.toFixed(2)}</strong></p>
+        <p style="font-size: 18px; margin-left: 20px;">Delivery: <strong>$${deliveryCharge.toFixed(2)}</strong></p>
+        <hr>
+        <p style="font-size: 20px; font-weight: bold; margin-left: 20px;">Total: <strong>$${finalCost.toFixed(2)}</strong></p>
+        <button style="background-color: #FFD700; color: black; padding: 10px 20px; border: none; cursor: pointer; margin-left: 150px; margin-top: 20px; border-radius: 20px">Proceed to Checkout</button>
+       `;
+      }
+
+      function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart();
+      }
+
+      loadCart();
+    </script>
+  </body>
+</html>
